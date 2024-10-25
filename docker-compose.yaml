@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:17
+    container_name: possu
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: possu
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    command:
+      - "postgres"
+      - "-c"
+      - "work_mem=16MB"
+
+  #app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: fastapi_app
+#    environment:
+#      DATABASE_URL: postgres://myuser:mypassword@db:5432/mydatabase
+#    depends_on:
+#      - db
+#    ports:
+#      - "8000:8000"
+#
+volumes:
+  postgres_data:
